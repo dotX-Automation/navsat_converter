@@ -60,7 +60,7 @@ target_include_directories(navsat_converter PUBLIC
   $<INSTALL_INTERFACE:include>)
 target_link_libraries(navsat_converter
   Eigen3::Eigen
-  GeographicLib)
+  ${GeographicLib_LIBRARIES})
 target_compile_features(navsat_converter PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 ament_target_dependencies(navsat_converter
   dua_common_interfaces
