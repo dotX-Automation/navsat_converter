@@ -43,10 +43,6 @@ void NavSatConverter::gps_to_xyz_clbk(size_t index, const NavSatFix::SharedPtr m
   Matrix3d gps_cov, xyz_cov;
   Isometry3d isometry;
 
-  if(msg->header.frame_id != earth_frame_) {
-    RCLCPP_WARN(this->get_logger(), "NavSatFix frame_id is not the earth frame.");
-  }
-
   Header hdr;
   hdr.frame_id = target_frame_;
   hdr.stamp = msg->header.stamp;

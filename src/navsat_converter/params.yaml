@@ -3,52 +3,52 @@ namespace: navsat_converter
 node_class_name: NavSatConverter
 
 params:
-  conv_gps_fix_topics:
+  conv.gps.fix_topics:
     type: string_array
     default_value:
       - /fix
     description: "NavSatFix topics list."
-    constraints: "Must be a list of valid topics name."
+    constraints: "Must be a list of valid topics name. Put a empty string to disable the conversion."
     read_only: true
     var_name: conv_gps_fix_topics_
 
-  conv_xyz_odometry_topics:
+  conv.xyz.odometry_topics:
     type: string_array
     default_value: 
       - /odometry
     description: "Odometry topics list."
-    constraints: "Must be a list of valid topics name."
+    constraints: "Must be a list of valid topics name. Put a empty string to disable the conversion."
     read_only: true
     var_name: conv_xyz_odometry_topics_
 
-  conv_xyz_point_topics:
+  conv.xyz.point_topics:
     type: string_array
     default_value:
       - /point
     description: "PointStamped topics list."
-    constraints: "Must be a list of valid topics name."
+    constraints: "Must be a list of valid topics name. Put a empty string to disable the conversion."
     read_only: true
     var_name: conv_xyz_point_topics_
 
-  conv_xyz_pose_topics:
+  conv.xyz.pose_topics:
     type: string_array
     default_value:
       - /pose
     description: "PoseStamped topics list."
-    constraints: "Must be a list of valid topics name."
+    constraints: "Must be a list of valid topics name. Put a empty string to disable the conversion."
     read_only: true
     var_name: conv_xyz_pose_topics_
 
-  conv_xyz_posecov_topics:
+  conv.xyz.posecov_topics:
     type: string_array
     default_value:
       - /pose_cov
     description: "PoseWithCovarianceStamped topics list."
-    constraints: "Must be a list of valid topics name."
+    constraints: "Must be a list of valid topics name. Put a empty string to disable the conversion."
     read_only: true
     var_name: conv_xyz_posecov_topics_
 
-  earth_frame:
+  earth.frame:
     type: string
     default_value: earth
     description: "Earth frame id."
@@ -56,7 +56,7 @@ params:
     read_only: true
     var_name: earth_frame_
 
-  earth_gps_lat:
+  earth.gps.lat:
     type: double
     default_value: 0.0
     min_value: -90.0
@@ -67,7 +67,7 @@ params:
     read_only: true
     var_name: earth_gps_lat_
 
-  earth_gps_lon:
+  earth.gps.lon:
     type: double
     default_value: 0.0
     min_value: -180.0
@@ -78,7 +78,7 @@ params:
     read_only: true
     var_name: earth_gps_lon_
 
-  earth_gps_alt:
+  earth.gps.alt:
     type: double
     default_value: 0.0
     min_value: -1000000.0
@@ -89,7 +89,7 @@ params:
     read_only: true
     var_name: earth_gps_alt_
 
-  target_frame:
+  target.frame:
     type: string
     default_value: map
     description: "GPS coordinate are converted in the cartesian target frame id."
@@ -97,7 +97,7 @@ params:
     read_only: true
     var_name: target_frame_
 
-  tf_ignore_stamp:
+  tf.ignore_stamp:
     type: bool
     default_value: false
     description: "Ignore requested timestamp in TF2 lookup operations"
@@ -105,7 +105,7 @@ params:
     read_only: false
     var_name: tf_ignore_stamp_
 
-  tf_timeout_ms:
+  tf.timeout_ms:
     type: integer
     default_value: 100
     min_value: 0

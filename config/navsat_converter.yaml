@@ -1,19 +1,26 @@
 /navsat_converter:
   ros__parameters:
-    conv_gps_fix_topics:
-      - /fix
-    conv_xyz_odometry_topics:
-      - /odometry
-    conv_xyz_point_topics:
-      - /point
-    conv_xyz_pose_topics:
-      - /pose
-    conv_xyz_posecov_topics:
-      - /pose_cov
-    earth_frame: earth
-    earth_gps_lat: 41.854693
-    earth_gps_lon: 12.624754
-    earth_gps_alt: 72.0
-    target_frame: map
-    tf_ignore_stamp: false
-    tf_timeout_ms: 100
+    conv:
+      gps:
+        fix_topics:
+          - /fix
+      xyz:
+        odometry_topics:
+          - /odometry
+        point_topics:
+          - /point
+        pose_topics:
+          - /pose
+        posecov_topics:
+          - /pose_cov
+    earth:
+      frame: earth
+      gps:
+        lat: 41.854693
+        lon: 12.624754
+        alt: 72.0
+    target:
+      frame: map
+    tf:
+      ignore_stamp: false
+      timeout_ms: 100
