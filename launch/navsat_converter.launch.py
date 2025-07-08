@@ -1,12 +1,12 @@
 """
-NMEA Driver app launch file.
+NavSatConverter Driver app launch file.
 
 Giorgio Manca <giorgio.manca.97@gmail.com>
 
-December 6, 2024
+July 8, 2025
 """
 
-# Copyright 2024 dotX Automation s.r.l.
+# Copyright 2025 dotX Automation s.r.l.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
