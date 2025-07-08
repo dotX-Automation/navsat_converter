@@ -6,47 +6,47 @@ params:
   conv.gps.fix_topics:
     type: string_array
     default_value:
-      - /fix
+      - ""
     description: "NavSatFix topics list."
     constraints: "Must be a list of valid topics name. Put a empty string to disable the conversion."
     read_only: true
-    var_name: conv_gps_fix_topics_
+    validator: validate_conv_gps_fix_topics
 
   conv.xyz.odometry_topics:
     type: string_array
     default_value: 
-      - /odometry
+      - ""
     description: "Odometry topics list."
     constraints: "Must be a list of valid topics name. Put a empty string to disable the conversion."
     read_only: true
-    var_name: conv_xyz_odometry_topics_
+    validator: validate_conv_xyz_odometry_topics
 
   conv.xyz.point_topics:
     type: string_array
     default_value:
-      - /point
+      - ""
     description: "PointStamped topics list."
     constraints: "Must be a list of valid topics name. Put a empty string to disable the conversion."
     read_only: true
-    var_name: conv_xyz_point_topics_
+    validator: validate_conv_xyz_point_topics
 
   conv.xyz.pose_topics:
     type: string_array
     default_value:
-      - /pose
+      - ""
     description: "PoseStamped topics list."
     constraints: "Must be a list of valid topics name. Put a empty string to disable the conversion."
     read_only: true
-    var_name: conv_xyz_pose_topics_
+    validator: validate_conv_xyz_pose_topics
 
   conv.xyz.posecov_topics:
     type: string_array
     default_value:
-      - /pose_cov
+      - ""
     description: "PoseWithCovarianceStamped topics list."
     constraints: "Must be a list of valid topics name. Put a empty string to disable the conversion."
     read_only: true
-    var_name: conv_xyz_posecov_topics_
+    validator: validate_conv_xyz_posecov_topics
 
   earth.frame:
     type: string
@@ -88,6 +88,14 @@ params:
     constraints: "Must be a valid real value."
     read_only: true
     var_name: earth_gps_alt_
+
+  earth.topic_stream:
+    type: bool
+    default_value: false
+    description: "Enable a NavSatFix to stream Earth frame coordinate updates."
+    constraints: "Should be off."
+    read_only: false
+    var_name: earth_topic_stream_
 
   target.frame:
     type: string

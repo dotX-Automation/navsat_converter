@@ -19,6 +19,7 @@
         lat: 41.854693
         lon: 12.624754
         alt: 72.0
+      topic_stream: false
     target:
       frame: map
     tf:

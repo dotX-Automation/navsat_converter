@@ -3,11 +3,11 @@
  *
  * Giorgio Manca <giorgio.manca.97@gmail.com>
  *
- * December 6, 2024
+ * July 8, 2025
  */
 
 /**
- * Copyright 2024 dotX Automation s.r.l.
+ * Copyright 2025 dotX Automation s.r.l.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -115,8 +115,16 @@ private:
   double earth_gps_lon_ = 0.0;
   double earth_gps_alt_ = 0.0;
   std::string target_frame_ = "";
+  bool earth_topic_stream_ = false;
   bool tf_ignore_stamp_ = false;
   int64_t tf_timeout_ms_ = 0;
+
+  /* Node Parameters Validators. */
+  bool validate_conv_gps_fix_topics(const rclcpp::Parameter & p);
+  bool validate_conv_xyz_odometry_topics(const rclcpp::Parameter & p);
+  bool validate_conv_xyz_point_topics(const rclcpp::Parameter & p);
+  bool validate_conv_xyz_pose_topics(const rclcpp::Parameter & p);
+  bool validate_conv_xyz_posecov_topics(const rclcpp::Parameter & p);
 
   /* Node Variables. */
   LocalCartesian coords;

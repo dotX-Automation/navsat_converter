@@ -3,11 +3,11 @@
  *
  * Giorgio Manca <giorgio.manca.97@gmail.com>
  *
- * December 6, 2024
+ * July 8, 2025
  */
 
 /**
- * Copyright 2024 dotX Automation s.r.l.
+ * Copyright 2025 dotX Automation s.r.l.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,14 +75,16 @@ void NavSatConverter::init_cgroups()
 
 void NavSatConverter::init_subscribers()
 {
-  coords_sub_ = dua_create_subscription<NavSatFix>(
-    coords_topic_,
-    std::bind(
-      &NavSatConverter::coords_clbk,
-      this,
-      std::placeholders::_1),
-    dua_qos::Reliable::get_datum_qos(),
-    coords_cgroup_);
+  if (earth_topic_stream_) {
+    coords_sub_ = dua_create_subscription<NavSatFix>(
+      coords_topic_,
+      std::bind(
+        &NavSatConverter::coords_clbk,
+        this,
+        std::placeholders::_1),
+      dua_qos::Reliable::get_datum_qos(),
+      coords_cgroup_);
+  }
 
   size_t idx;
 
@@ -259,22 +261,6 @@ void NavSatConverter::init_service_clients()
 
 void NavSatConverter::init_internals()
 {
-  while (conv_gps_fix_topics_.size() > 0 && conv_gps_fix_topics_.back().size() == 0) {
-    conv_gps_fix_topics_.pop_back();
-  }
-  while (conv_xyz_odometry_topics_.size() > 0 && conv_xyz_odometry_topics_.back().size() == 0) {
-    conv_xyz_odometry_topics_.pop_back();
-  }
-  while (conv_xyz_point_topics_.size() > 0 && conv_xyz_point_topics_.back().size() == 0) {
-    conv_xyz_point_topics_.pop_back();
-  }
-  while (conv_xyz_pose_topics_.size() > 0 && conv_xyz_pose_topics_.back().size() == 0) {
-    conv_xyz_pose_topics_.pop_back();
-  }
-  while (conv_xyz_posecov_topics_.size() > 0 && conv_xyz_posecov_topics_.back().size() == 0) {
-    conv_xyz_posecov_topics_.pop_back();
-  }
-
   coords = LocalCartesian(earth_gps_lat_, earth_gps_lon_, earth_gps_alt_);
 }
 
