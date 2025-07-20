@@ -116,7 +116,7 @@ void NavSatConverter::init_subscribers()
           xyz_to_gps_clbk(index, msg);
         },
         dua_qos::Reliable::get_datum_qos(),
-        gps_to_xyz_cgroups_fix_.at(i)));
+        xyz_to_gps_cgroups_odometry_.at(i)));
     idx++;
   }
 
