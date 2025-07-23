@@ -70,6 +70,10 @@ void NavSatConverter::init_cgroups()
   for (size_t i = 0; i < conv_xyz_posecov_topics_.size(); i++) {
     xyz_to_gps_cgroups_posecov_.push_back(dua_create_exclusive_cgroup());
   }
+
+  convert_gps_cgroup_ = dua_create_exclusive_cgroup();
+  convert_xyz_cgroup_ = dua_create_exclusive_cgroup();
+  update_earth_cgroup_ = dua_create_exclusive_cgroup();
 }
 
 
@@ -232,7 +236,8 @@ void NavSatConverter::init_service_servers()
       &NavSatConverter::convert_gps_clbk,
       this,
       std::placeholders::_1,
-      std::placeholders::_2));
+      std::placeholders::_2),
+    convert_gps_cgroup_);
 
   convert_xyz_srv_ = dua_create_service_server<ConvertXYZ>(
     convert_xyz_srv_name_,
@@ -240,7 +245,8 @@ void NavSatConverter::init_service_servers()
       &NavSatConverter::convert_xyz_clbk,
       this,
       std::placeholders::_1,
-      std::placeholders::_2));
+      std::placeholders::_2),
+    convert_xyz_cgroup_);
 
   update_earth_srv_ = dua_create_service_server<UpdateEarth>(
     update_earth_srv_name_,
@@ -248,7 +254,8 @@ void NavSatConverter::init_service_servers()
       &NavSatConverter::update_earth_clbk,
       this,
       std::placeholders::_1,
-      std::placeholders::_2));
+      std::placeholders::_2),
+    update_earth_cgroup_);
 }
 
 

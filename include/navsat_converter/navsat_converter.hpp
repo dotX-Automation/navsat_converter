@@ -267,6 +267,11 @@ private:
   static const std::string convert_xyz_srv_name_;
   static const std::string update_earth_srv_name_;
 
+  /* Service Servers Callback Groups. */
+  rclcpp::CallbackGroup::SharedPtr convert_gps_cgroup_;
+  rclcpp::CallbackGroup::SharedPtr convert_xyz_cgroup_;
+  rclcpp::CallbackGroup::SharedPtr update_earth_cgroup_;
+
   /* Service Servers Callbacks. */
 
   /**

@@ -169,7 +169,7 @@ bool NavSatConverter::get_isometry(const Header & hdr, Isometry3d & isometry)
   req->timeout = rclcpp::Duration(std::chrono::nanoseconds(1000 * tf_timeout_ms_));
 
   auto resp = get_transform_cli_->call_sync(req);
-  if (resp->result.result == CommandResultStamped::ERROR) {
+  if (resp == nullptr || resp->result.result == CommandResultStamped::ERROR) {
     RCLCPP_ERROR(this->get_logger(),
       "Error requesting transform from %s to %s",
       earth_frame_.c_str(), hdr.frame_id.c_str());
