@@ -33,6 +33,9 @@ void NavSatConverter::coords_clbk(const NavSatFix::SharedPtr msg)
   if (msg->header.frame_id == earth_frame_) {
     std::lock_guard guard(coords_mutex);
     coords = LocalCartesian(msg->latitude, msg->longitude, msg->altitude);
+  } else {
+    RCLCPP_ERROR_THROTTLE(get_logger(), *get_clock(), 1000,
+      "NavSatFix message frame_id is not equal to the Earth frame name");
   }
 }
 
