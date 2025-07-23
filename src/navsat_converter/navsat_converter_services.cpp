@@ -176,9 +176,6 @@ bool NavSatConverter::get_isometry(const Header & hdr, Isometry3d & isometry)
     return false;
   }
 
-  resp->transform.transform.translation;
-  resp->transform.transform.rotation;
-
   Vector3d vect = Vector3d(
     resp->transform.transform.translation.x,
     resp->transform.transform.translation.y,
