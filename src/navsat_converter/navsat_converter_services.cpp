@@ -38,7 +38,8 @@ void NavSatConverter::convert_gps_clbk(
   if(req->header.frame_id != earth_frame_) {
     res->success = false;
     RCLCPP_ERROR(this->get_logger(),
-      "GPS conversion failed: GPS coordinates source frame_id is not equal to Earth frame name");
+      "GPS conversion failed: GPS coordinates source frame_id (%s) != Earth frame (%s)",
+      req->header.frame_id.c_str(), earth_frame_.c_str());
     return;
   }
 
@@ -78,7 +79,8 @@ void NavSatConverter::convert_gps_clbk(
   } else {
     res->success = false;
     RCLCPP_ERROR(this->get_logger(),
-      "GPS conversion failed: XYZ coordinates target frame_id is not valid");
+      "GPS conversion failed: XYZ coordinates target frame_id (%s) is not valid",
+      req->target_frame_id.c_str());
   }
 }
 
@@ -93,7 +95,8 @@ void NavSatConverter::convert_xyz_clbk(
   if(req->target_frame_id != earth_frame_) {
     res->success = false;
     RCLCPP_ERROR(this->get_logger(),
-      "XYZ conversion failed: GPS coordinates target frame_id is not equal to Earth frame name");
+      "XYZ conversion failed: GPS coordinates target frame_id (%s) != Earth frame (%s)",
+      req->target_frame_id.c_str(), earth_frame_.c_str());
     return;
   }
 
@@ -133,7 +136,8 @@ void NavSatConverter::convert_xyz_clbk(
   } else {
     res->success = false;
     RCLCPP_ERROR(this->get_logger(),
-      "XYZ conversion failed: XYZ coordinates source frame_id is not valid");
+      "XYZ conversion failed: XYZ coordinates source frame_id (%s) is not valid",
+      req->header.frame_id.c_str());
   }
 }
 
@@ -150,7 +154,8 @@ void NavSatConverter::update_earth_clbk(
   } else {
     res->success = false;
     RCLCPP_ERROR(this->get_logger(),
-      "Earth coordinates update failed: frame_id is not the same");
+      "Earth coordinates update failed: frame_id is not the same (%s, %s)",
+      req->header.frame_id.c_str(), earth_frame_.c_str());
   }
 }
 
