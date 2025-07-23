@@ -37,6 +37,8 @@ void NavSatConverter::convert_gps_clbk(
 
   if(req->header.frame_id != earth_frame_) {
     res->success = false;
+    RCLCPP_ERROR(this->get_logger(),
+      "GPS conversion failed: GPS coordinates source frame_id is not equal to Earth frame name");
     return;
   }
 
@@ -75,6 +77,8 @@ void NavSatConverter::convert_gps_clbk(
     res->covariance[8] = xyz_cov(2, 2);
   } else {
     res->success = false;
+    RCLCPP_ERROR(this->get_logger(),
+      "GPS conversion failed: XYZ coordinates target frame_id is not valid");
   }
 }
 
@@ -88,6 +92,8 @@ void NavSatConverter::convert_xyz_clbk(
 
   if(req->target_frame_id != earth_frame_) {
     res->success = false;
+    RCLCPP_ERROR(this->get_logger(),
+      "XYZ conversion failed: GPS coordinates target frame_id is not equal to Earth frame name");
     return;
   }
 
@@ -126,6 +132,8 @@ void NavSatConverter::convert_xyz_clbk(
     res->covariance[8] = gps_cov(2, 2);
   } else {
     res->success = false;
+    RCLCPP_ERROR(this->get_logger(),
+      "XYZ conversion failed: XYZ coordinates source frame_id is not valid");
   }
 }
 
@@ -141,6 +149,8 @@ void NavSatConverter::update_earth_clbk(
     res->success = true;
   } else {
     res->success = false;
+    RCLCPP_ERROR(this->get_logger(),
+      "Earth coordinates update failed: frame_id is not the same");
   }
 }
 
@@ -155,8 +165,9 @@ bool NavSatConverter::get_isometry(const Header & hdr, Isometry3d & isometry)
 
   auto resp = get_transform_cli_->call_sync(req);
   if (resp->result.result == CommandResultStamped::ERROR) {
-    RCLCPP_ERROR(this->get_logger(), "Error requesting transform from %s to %s",
-        earth_frame_.c_str(), hdr.frame_id.c_str());
+    RCLCPP_ERROR(this->get_logger(),
+      "Error requesting transform from %s to %s",
+      earth_frame_.c_str(), hdr.frame_id.c_str());
     return false;
   }
 
