@@ -35,7 +35,8 @@ void NavSatConverter::coords_clbk(const NavSatFix::SharedPtr msg)
     coords = LocalCartesian(msg->latitude, msg->longitude, msg->altitude);
   } else {
     RCLCPP_ERROR_THROTTLE(get_logger(), *get_clock(), 1000,
-      "NavSatFix message frame_id is not equal to the Earth frame name");
+      "NavSatFix message frame_id (%s) != Earth frame (%s)",
+      msg->header.frame_id.c_str(), earth_frame_.c_str());
   }
 }
 
