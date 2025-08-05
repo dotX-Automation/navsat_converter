@@ -162,14 +162,14 @@ void NavSatConverter::update_earth_clbk(
 bool NavSatConverter::get_isometry(const Header & hdr, Isometry3d & isometry)
 {
   auto req = std::make_shared<GetTransform::Request>();
-  req->source.frame_id = earth_frame_;
-  req->target.frame_id = hdr.frame_id;
+  req->source.frame_id = hdr.frame_id;
+  req->target.frame_id = earth_frame_;
   req->source.stamp = tf_ignore_stamp_ ? rclcpp::Time() : rclcpp::Time(hdr.stamp);
   req->target.stamp = req->source.stamp;
   req->timeout = rclcpp::Duration(std::chrono::nanoseconds(1000 * tf_timeout_ms_));
 
   auto resp = get_transform_cli_->call_sync(req);
-  if (resp == nullptr || resp->result.result == CommandResultStamped::ERROR) {
+  if (resp == nullptr || resp->result.result != CommandResultStamped::SUCCESS) {
     RCLCPP_ERROR(this->get_logger(),
       "Error requesting transform from %s to %s",
       earth_frame_.c_str(), hdr.frame_id.c_str());
