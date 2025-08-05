@@ -230,11 +230,11 @@ private:
   /* Utility routines. */
 
   /**
-   * @brief Routine to convert satellitar coordinates in cartesian coordinates.
+   * @brief Routine to convert geographic coordinates in cartesian coordinates.
    *
-   * @param isometry isometry from gps frame to xyz frame
-   * @param gps_pos input navsatfix coordinates
-   * @param gps_cov input navsatfix covariance
+   * @param isometry isometry from gps frame to cartesian frame
+   * @param gps_pos input geographic coordinates
+   * @param gps_cov input geographic covariance
    * @param xyz_pos output cartesian coordinates
    * @param xyz_cov output cartesian covariance
    */
@@ -244,13 +244,13 @@ private:
     Vector3d & xyz_pos, Matrix3d & xyz_cov);
 
   /**
-   * @brief Trasform cartesian coordinates in navsatfix coordinates.
+   * @brief Trasform cartesian coordinates in geographic coordinates.
    *
-   * @param isometry isometry from gps frame to xyz fram
+   * @param isometry isometry from gps frame to cartesian frame
    * @param xyz_pos input cartesian coordinates
    * @param xyz_cov input cartesian covariance
-   * @param gps_pos output navsatfix coordinates
-   * @param gps_cov output navsatfix covariance
+   * @param gps_pos output geographic coordinates
+   * @param gps_cov output geographic covariance
    */
   void xyz_to_gps(
     const Eigen::Isometry3d & isometry,
