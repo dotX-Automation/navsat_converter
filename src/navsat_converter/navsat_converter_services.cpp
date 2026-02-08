@@ -35,9 +35,9 @@ void NavSatConverter::convert_gps_clbk(
   Matrix3d gps_cov, xyz_cov;
   Isometry3d isometry;
 
-  if(req->header.frame_id != earth_frame_) {
+  if (req->header.frame_id != earth_frame_) {
     res->success = false;
-    RCLCPP_ERROR(this->get_logger(),
+    RCLCPP_ERROR(get_logger(),
       "GPS conversion failed: GPS coordinates source frame_id (%s) != Earth frame (%s)",
       req->header.frame_id.c_str(), earth_frame_.c_str());
     return;
@@ -78,7 +78,7 @@ void NavSatConverter::convert_gps_clbk(
     res->covariance[8] = xyz_cov(2, 2);
   } else {
     res->success = false;
-    RCLCPP_ERROR(this->get_logger(),
+    RCLCPP_ERROR(get_logger(),
       "GPS conversion failed: XYZ coordinates target frame_id (%s) is not valid",
       req->target_frame_id.c_str());
   }
@@ -92,9 +92,9 @@ void NavSatConverter::convert_xyz_clbk(
   Matrix3d xyz_cov, gps_cov;
   Isometry3d isometry;
 
-  if(req->target_frame_id != earth_frame_) {
+  if (req->target_frame_id != earth_frame_) {
     res->success = false;
-    RCLCPP_ERROR(this->get_logger(),
+    RCLCPP_ERROR(get_logger(),
       "XYZ conversion failed: GPS coordinates target frame_id (%s) != Earth frame (%s)",
       req->target_frame_id.c_str(), earth_frame_.c_str());
     return;
@@ -135,7 +135,7 @@ void NavSatConverter::convert_xyz_clbk(
     res->covariance[8] = gps_cov(2, 2);
   } else {
     res->success = false;
-    RCLCPP_ERROR(this->get_logger(),
+    RCLCPP_ERROR(get_logger(),
       "XYZ conversion failed: XYZ coordinates source frame_id (%s) is not valid",
       req->header.frame_id.c_str());
   }
@@ -153,7 +153,7 @@ void NavSatConverter::update_earth_clbk(
     res->success = true;
   } else {
     res->success = false;
-    RCLCPP_ERROR(this->get_logger(),
+    RCLCPP_ERROR(get_logger(),
       "Earth coordinates update failed: frame_id is not the same (%s, %s)",
       req->header.frame_id.c_str(), earth_frame_.c_str());
   }
@@ -161,31 +161,33 @@ void NavSatConverter::update_earth_clbk(
 
 bool NavSatConverter::get_isometry(const Header & hdr, Isometry3d & isometry)
 {
-  auto req = std::make_shared<GetTransform::Request>();
-  req->source.frame_id = hdr.frame_id;
-  req->target.frame_id = earth_frame_;
-  req->source.stamp = tf_ignore_stamp_ ? rclcpp::Time() : rclcpp::Time(hdr.stamp);
-  req->target.stamp = req->source.stamp;
-  req->timeout = rclcpp::Duration(std::chrono::nanoseconds(1000 * tf_timeout_ms_));
+  Header source{}, target{};
+  source.frame_id = earth_frame_;
+  target.frame_id = hdr.frame_id;
+  source.stamp = tf_ignore_stamp_ ? rclcpp::Time() : rclcpp::Time(hdr.stamp);
+  target.stamp = source.stamp;
+  auto timeout = rclcpp::Duration(std::chrono::nanoseconds(1000000 * tf_timeout_ms_));
+  TransformStamped tf{};
 
-  auto resp = get_transform_cli_->call_sync(req);
-  if (resp == nullptr || resp->result.result != CommandResultStamped::SUCCESS) {
-    RCLCPP_ERROR(this->get_logger(),
+  uint8_t res = get_transform(source, target, tf, true, timeout);
+
+  if (res == CommandResultStamped::TIMEOUT || res == CommandResultStamped::ERROR) {
+    RCLCPP_ERROR(get_logger(),
       "Error requesting transform from %s to %s",
       earth_frame_.c_str(), hdr.frame_id.c_str());
     return false;
   }
 
   Vector3d vect = Vector3d(
-    resp->transform.transform.translation.x,
-    resp->transform.transform.translation.y,
-    resp->transform.transform.translation.z);
+    tf.transform.translation.x,
+    tf.transform.translation.y,
+    tf.transform.translation.z);
 
   Quaterniond quat = Quaterniond(
-    resp->transform.transform.rotation.w,
-    resp->transform.transform.rotation.x,
-    resp->transform.transform.rotation.y,
-    resp->transform.transform.rotation.z);
+    tf.transform.rotation.w,
+    tf.transform.rotation.x,
+    tf.transform.rotation.y,
+    tf.transform.rotation.z);
 
   isometry.translation() = vect;
   isometry.linear() = quat.toRotationMatrix();

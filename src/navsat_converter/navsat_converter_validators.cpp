@@ -46,7 +46,7 @@ bool NavSatConverter::validate_conv_gps_fix_topics(const rclcpp::Parameter & p)
 bool NavSatConverter::validate_conv_xyz_odometry_topics(const rclcpp::Parameter & p)
 {
   std::vector<std::string> list = p.as_string_array();
-  
+
   conv_xyz_odometry_topics_.clear();
   for (const std::string & topic : list) {
     if (topic.length() > 0) {

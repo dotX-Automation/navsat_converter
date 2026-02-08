@@ -34,13 +34,13 @@ NavSatConverter::NavSatConverter(const rclcpp::NodeOptions & opts)
 
   init_internals();
 
-  RCLCPP_INFO(this->get_logger(), "Node initialized");
+  RCLCPP_INFO(get_logger(), "Node initialized");
 }
 
 
 NavSatConverter::~NavSatConverter()
 {
-  RCLCPP_INFO(this->get_logger(), "Destructor called, sending stop signal.");
+  RCLCPP_INFO(get_logger(), "Destructor called, sending stop signal.");
 }
 
 
@@ -256,13 +256,6 @@ void NavSatConverter::init_service_servers()
       std::placeholders::_1,
       std::placeholders::_2),
     update_earth_cgroup_);
-}
-
-
-void NavSatConverter::init_service_clients()
-{
-  get_transform_cli_ = dua_create_service_client<GetTransform>(
-    get_transform_cli_name_);
 }
 
 

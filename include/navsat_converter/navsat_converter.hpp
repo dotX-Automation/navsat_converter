@@ -49,16 +49,17 @@
 #include <GeographicLib/LocalCartesian.hpp>
 
 #include <dua_common_interfaces/msg/command_result_stamped.hpp>
-#include <dua_geometry_interfaces/srv/convert_gps.hpp>
-#include <dua_geometry_interfaces/srv/convert_xyz.hpp>
-#include <dua_geometry_interfaces/srv/get_transform.hpp>
-#include <dua_geometry_interfaces/srv/update_earth.hpp>
 #include <geometry_msgs/msg/point_stamped.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
 #include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
+#include <geometry_msgs/msg/transform_stamped.hpp>
 #include <nav_msgs/msg/odometry.hpp>
 #include <sensor_msgs/msg/nav_sat_fix.hpp>
 #include <std_msgs/msg/header.hpp>
+
+#include <dua_geometry_interfaces/srv/convert_gps.hpp>
+#include <dua_geometry_interfaces/srv/convert_xyz.hpp>
+#include <dua_geometry_interfaces/srv/update_earth.hpp>
 
 using namespace dua_common_interfaces::msg;
 using namespace dua_geometry_interfaces::srv;
@@ -97,7 +98,6 @@ private:
   void init_subscribers() override;
   void init_publishers() override;
   void init_service_servers() override;
-  void init_service_clients() override;
 
   /**
    * @brief Routine to initialize node structures.
@@ -304,19 +304,15 @@ private:
     const UpdateEarth::Request::SharedPtr req,
     const UpdateEarth::Response::SharedPtr res);
 
-  /* Service Clients */
-  simple_serviceclient::Client<GetTransform>::SharedPtr get_transform_cli_;
-
-  /* Service Clients Names */
-  static const std::string get_transform_cli_name_;
-
-  /* Service Clients Routines */
+  /* Utility Routines */
 
   /**
    * @brief Routine to get isometry from earth frame to specified frame.
    *
    * @param hdr target frame
    * @param isometry output isometry
+   *
+   * @return True if the transformation is available, false otherwise.
    */
   bool get_isometry(const Header & hdr, Isometry3d & isometry);
 };

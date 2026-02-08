@@ -34,7 +34,4 @@ const std::string NavSatConverter::convert_gps_srv_name_ = "~/convert_gps";
 const std::string NavSatConverter::convert_xyz_srv_name_ = "~/convert_xyz";
 const std::string NavSatConverter::update_earth_srv_name_ = "~/update_earth";
 
-/* Service Client Names */
-const std::string NavSatConverter::get_transform_cli_name_ = "/dua_tf_server/get_transform";
-
 } // namespace navsat_converter

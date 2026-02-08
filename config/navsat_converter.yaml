@@ -13,6 +13,11 @@
           - /pose
         posecov_topics:
           - /pose_cov
+    dua:
+      tf_server:
+        get_transform: true
+        transform_pose: false
+        wait_servers: false
     earth:
       frame: earth
       gps:
@@ -25,3 +30,4 @@
     tf:
       ignore_stamp: false
       timeout_ms: 100
+    use_sim_time: false
